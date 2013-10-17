@@ -31,7 +31,7 @@
         <label>Comment</label>
         <textarea name="comment"></textarea>
 
-        <input type="submit" value="Vote and Comment!" />
+        <input class="button success small radius" type="submit" value="Vote and Comment!" />
       </form>
     </div>
   </div>
@@ -46,6 +46,7 @@
       <b>{{ username }} (chose {{ side }}):</b>
       <p>{{ comment }}</p>
       </div>
+      <input class="button tiny radius alert" type="submit" value="Delete"/>
   </script>
 
   <script class="vote-count" type="text/template">
@@ -60,17 +61,16 @@
   /* *
    * Lesson Step: The Comment Wall View
    */
-  var wall = new CommentWall();
+  var wall = new CommentWall([], {
+    url: '<%= contest_comment_api_path @contest %>'
+  });
 
   var wallView = new CommentWallView({
     collection: wall,
     el: '.comment-wall'
   });
 
-  wall.add([
-    { username: 'ROBOT A', side: 'left', comment: 'EXCELLENT' },
-    { username: 'ROBOT B', side: 'right', comment: 'YES' }
-  ]);
+  wall.add(<%= raw @contest.comments.to_json %>);
 
 
   /* *
